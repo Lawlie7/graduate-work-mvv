@@ -1,0 +1,226 @@
+.chart-tax {
+  position: relative;
+  margin: auto;
+  height: auto;
+  background-color: #fff;
+  padding: 35px 50px 40px;
+}
+.chart-tax:not(:last-child) {
+  margin-bottom: 40px;
+}
+.chart-tax__title {
+  margin: 0 0 20px;
+  font-size: 48px;
+  text-align: center;
+}
+.chart-tax__header {
+  position: relative;
+  margin: 0 auto 20px;
+}
+
+.chart-tax-header {
+  max-width: 100%;
+  width: 70%;
+  padding-bottom: 10px;
+}
+.chart-tax-header__title {
+  font-size: 28px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1500px){
+  .chart-tax__title {
+    font-size: 42px;
+  }
+  .chart-tax-header__title {
+    font-size: 26px;
+  }
+}
+@media (max-width: 1300px){
+  .chart-tax {
+    padding: 30px 40px 35px;
+  }
+  .chart-tax__title {
+    font-size: 36px;
+    margin: 0 0 15px;
+  }
+  .chart-tax-header__title {
+    font-size: 24px;
+  }
+}
+@media (max-width: 1200px){
+  .chart-tax-header {
+    width: 100%;
+  }
+}
+@media (max-width: 1100px){
+  .chart-tax__title {
+    font-size: 32px;
+    margin: 0 0 10px;
+  }
+  .chart-tax-header__title {
+    font-size: 22px;
+  }
+}
+
+.chart-tax-header__breadcrumbs {
+  position: absolute;
+  top: calc(100% - 15px);
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.chart-tax-header:hover .chart-tax-header__breadcrumbs {
+  top: 100%;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.chart-tax__body {
+  display: grid;
+  max-width: 100%;
+  grid-template-columns: 1fr 2fr;
+  gap: 100px;
+}
+
+@media (max-width: 1400px){
+  .chart-tax__body {
+    gap: 80px;
+  }
+}
+@media (max-width: 1300px){
+  .chart-tax__body {
+    gap: 60px;
+  }
+}
+@media (max-width: 1200px){
+  .chart-tax__body {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-height: unset;
+  }
+}
+.chart-tax__doughnut {
+  height: auto;
+ 
+}
+@media (max-width: 1400px){
+  .chart-tax__doughnut {
+    max-width: 440px;
+  }
+}
+@media (max-width: 1300px){
+  .chart-tax__doughnut {
+    max-width: 420px;
+  }
+}
+@media (max-width: 1200px){
+  .chart-tax__doughnut {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+.chart-tax__legend {
+  
+}
+
+/*----------------------------------------------------------*/
+.chart-tax__legend-wrapper {
+  overflow: auto;
+  max-height: 100%;
+  margin: auto 0;
+}
+.chart-tax-legend {
+  
+}
+.chart-tax-legend__list {
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.chart-tax-legend__item {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+.chart-tax-legend__item_main {
+  font-weight: 700;
+  font-size: 18px;
+}
+.chart-tax-legend__item:not(:last-child) {
+  margin-bottom: 5px;
+}
+.chart-tax-legend__item_main:not(:last-child) {
+  margin-bottom: 15px;
+}
+.chart-tax-legend__color {
+  flex: 0 0 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 25px;
+
+  border-radius: 5px;
+  padding: 5px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+.chart-tax-legend__text {
+  flex: 1 1 auto;
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chart-tax-legend__value {
+  white-space: nowrap;
+  flex: 1 0 200px;
+  text-align: right;
+}
+.chart-tax-legend__item._crossed-out .chart-tax-legend__text,
+.chart-tax-legend__item._crossed-out .chart-tax-legend__value {
+  text-decoration: line-through
+}
+
+/*----------------------------------------------------------------*/
+.breadcrumb {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 3px 20px -4px rgb(0 0 0);
+  border: 1px solid #000;
+  transition: all .3s ease 0s;
+}
+.breadcrumb__item {
+  cursor: pointer;
+  padding: 3.5px 5px;
+  display: flex;
+  gap: 5px;
+  transition: all .3s ease 0s;
+}
+.breadcrumb__item:hover {
+  color: #fff;
+  background-color: rgba(1, 41, 106, 1);
+}
+
+
+.breadcrumb__item {
+  padding-left: calc((var(--i) - 1) * 23px + 5px);
+}
+.breadcrumb__item:first-child,
+.breadcrumb__item:nth-child(2)  {
+  padding-left: 5px;
+}
+.breadcrumb__item:not(:first-child)::before {
+  content: '➥ ';
+  margin-top: -3px;
+}

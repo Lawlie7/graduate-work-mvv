@@ -1,0 +1,155 @@
+.plan-done {
+    background-color: #fff;
+    padding: 35px 50px 40px;
+}
+.plan-done:not(:last-child) {
+    margin-bottom: 40px;
+}
+.plan-done__title {
+    margin: 0 0 25px;
+    font-size: 48px;
+    text-align: center;
+}
+@media (max-width: 1500px){
+    .plan-done__title {
+      font-size: 42px;
+    }
+}
+@media (max-width: 1300px){
+    .plan-done {
+        padding: 30px 40px 35px;
+    }
+    .plan-done__title {
+      font-size: 36px;
+    }
+}
+@media (max-width: 1100px){
+    .plan-done__title {
+      font-size: 32px;
+    }
+}
+.plan-done__body {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    max-height: 400px;
+    gap: 100px;
+}
+
+@media (max-width: 1400px){
+    .plan-done__body {
+        gap: 80px;
+    }
+}
+@media (max-width: 1300px){
+    .plan-done__body {
+        gap: 60px;
+    }
+}
+@media (max-width: 1200px){
+    .plan-done__body {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        max-height: unset;
+    }
+}
+.plan-done__doughnut {
+    position: relative;
+    max-width: 466px;
+    width: 100%;
+}
+@media (max-width: 1400px){
+    .plan-done__doughnut {
+        max-width: 440px;
+    }
+}
+@media (max-width: 1300px){
+    .plan-done__doughnut {
+        max-width: 420px;
+    }
+}
+@media (max-width: 1200px){
+    .plan-done__doughnut {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+#plan-done-id {
+    margin-bottom: 10px;
+}
+.plan-done__done {
+    text-align: center;
+    font-size: 32px;
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.plan-done__progress {
+
+}
+.plan-progress {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+.plan-progress__item {
+    flex: 0 1 20.1%;
+    text-align: center;
+}
+
+
+.plan-done__legend {
+    overflow: auto;
+    max-height: 100%;
+    margin: auto 0;
+}
+.plan-done-legend {
+
+}
+.plan-done-legend__list {
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.plan-done-legend__item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.plan-done-legend__item_main {
+    font-size: 18px;
+    font-weight: 700;
+}
+.plan-done-legend__item:not(:last-child) {
+    margin-bottom: 5px;
+}
+.plan-done-legend__item_main:not(:last-child) {
+    margin-bottom: 15px;
+}
+.plan-done-legend__color {
+    flex: 0 0 70px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 25px;
+
+    border-radius: 5px;
+    padding: 5px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+.plan-done-legend__text {
+    flex: 1 1 auto;
+    min-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.plan-done-legend__value {
+    white-space: nowrap;
+    flex: 0 0 200px;
+    text-align: right;
+}
