@@ -210,18 +210,18 @@ function App() {
         <header className="header">
           <div className="container">
             <nav className="header__menu">
-              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="https://Lawlie7.github.io/graduate-work-mvv/">Головна</NavLink>
-              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="https://Lawlie7.github.io/graduate-work-mvv/data">Вибірка даних</NavLink>
-              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="https://Lawlie7.github.io/graduate-work-mvv/diagram">Діаграми</NavLink>
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="graduate-work-mvv/">Головна</NavLink>
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="graduate-work-mvv/data">Вибірка даних</NavLink>
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="graduate-work-mvv/diagram">Діаграми</NavLink>
             </nav>
           </div>
         </header>
         
         <main className="page">
           <Routes> 
-            <Route path="https://Lawlie7.github.io/graduate-work-mvv/" element={<MainPage />}/>
-            <Route path="https://Lawlie7.github.io/graduate-work-mvv/data" element={<DataPage data={data} showFields={showFields} setShowFields={setShowFields} codes={codes} renamedColumnNames={renamedColumnNames} columnNames={columnNames} checkedSettings={checkedSettings} setCheckedSettings={setCheckedSettings} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
-            <Route path="https://Lawlie7.github.io/graduate-work-mvv/diagram/*" element={<InfographicPage data={data} renamedColumnNames={renamedColumnNames} codes={codes} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}>
+            <Route path="graduate-work-mvv/" element={<MainPage />}/>
+            <Route path="graduate-work-mvv/data" element={<DataPage data={data} showFields={showFields} setShowFields={setShowFields} codes={codes} renamedColumnNames={renamedColumnNames} columnNames={columnNames} checkedSettings={checkedSettings} setCheckedSettings={setCheckedSettings} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
+            <Route path="graduate-work-mvv/diagram/*" element={<InfographicPage data={data} renamedColumnNames={renamedColumnNames} codes={codes} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}>
               <Route path="plan-done" element={<PlanDone data={data} />}/>
               <Route path="plan-done-by-types" element={<PlanDoneByTypes data={data} renamedColumnNames={renamedColumnNames} codes={codes}/>}/>
               <Route path="chart-tax" element={<ChartTax data={data} renamedColumnNames={renamedColumnNames} codes={codes} />}/>
