@@ -207,6 +207,7 @@ function App() {
             <img className="loading__icon" src={loading} alt="Loading..." />
           </div>
         }
+        
         <header className="header">
           <div className="container">
             <nav className="header__menu">
