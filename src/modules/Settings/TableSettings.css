@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     background-color: #fff;
+    gap: 20px;
 }
 
 /*---------------------------------------------------*/
@@ -48,7 +49,6 @@
 
 /*---------------------------------------------------*/
 .settings-table__filters {
-    margin-bottom: 20px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -70,11 +70,7 @@
 .settings-columns__list {
     flex: 1 1 auto;
     overflow: auto;
-    margin: 0;
-    margin-bottom: 20px;
-    overflow: auto;
-    list-style: none;
-    padding: 0;
+    overflow-x: hidden;
 }
 .settings-columns__item {
     font-size: 14px;
@@ -131,7 +127,6 @@
 /*---------------------------------------------------*/
 .settings-rows__list {
     overflow: auto;
-    list-style: none;
     padding: 0;
     padding-left: 16px;
     margin-top: 10px;
@@ -199,9 +194,9 @@ form > .settings-rows__list {
         font-weight: 500;
     }
 }
-@media (max-width: 1300px){
+@media (max-width: 1200px){
     .settings-rows__list {
-        padding-left: 23px;
+        padding-left: 16px;
     }
     .settings-rows__code {
         font-weight: 600;

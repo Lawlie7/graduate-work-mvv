@@ -60,3 +60,13 @@
         max-width: 200px;
     }
 }
+
+@media (max-width: 480px){
+    .table__column {
+        max-width: 200px;
+    }
+    .table__column_big {
+        max-width: 320px;
+        min-width: 320px;
+    }
+}

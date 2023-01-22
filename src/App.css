@@ -1,111 +1,114 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
+* {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+button {
+	cursor: pointer;
+	color: inherit;
+	background-color: inherit;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+ul li {
+	list-style: none;
+}
+img {
+	vertical-align: top;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-weight: inherit;
+	font-size: inherit;
 }
 
-p {
-  margin: 0;
-}
 
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #01296a;
   color: #000;
-  
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .container {
   max-width: 1640px;
-  min-width: 992px;
   padding: 0 20px;
   width: 100%;
+  height: 100%;
   margin: 0 auto;
 }
 
+@media (max-width: 768px){
+  .container {
+    padding: 0 10px;
+  }
+}
+
+
+/*==================================================================*/
+.header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+.header__menu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.header__link{
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color .3s ease 0s;
+  text-align: center;
+}
+@media (max-width: 768px){
+  .header__menu {
+    gap: 40px;
+  }
+  .header__link {
+    font-size: 16px;
+  }
+}
+@media (max-width: 480px){
+  .header__menu {
+    gap: 30px;
+  }
+  .header__link {
+    font-size: 14px;
+  }
+}
+.header__link:hover {
+  color: rgb(241, 208, 137);
+}
+.header__link._active {
+  color: rgb(244, 174, 25);
+}
 /*==================================================================*/
 
-.app {
-}
-.app__main {
-}
-.app-main {
-}
-.app-main__inner {
-  height: 100vh;
-  min-height: 800px;
+.page {
+  flex: 1 1 auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 40px 0;
-  margin-bottom: 40px;
 }
-.app__infographics {
-  margin-bottom: 60px;
-}
-@media (max-width: 1200px){
-  .app-main__inner {
-    margin-bottom: 20px;
-  }
-  .app__infographics {
-    margin-bottom: 40px;
-  }
-}
+
 /*========================================================================================================================================================*/
-.table-block {
-  flex: 1 1 auto;
-  background-color: rgba(0, 0, 0, 0.35);
-  box-shadow: 0px 10px 50px rgba(0, 0, 0, 1);
-  display: grid;
-  grid-template-columns: 3fr 1.2fr;
-  gap: 5px;
-  border-radius: 5px;
-  overflow: hidden;
-}
-.table-block__column {
-  display: grid;
-  gap: 5px;
-  grid-template-columns: 1fr;
-  grid-template-rows: 40px calc(100% - 45px);
-  max-height: 100%;
-  overflow: hidden;
-}
-.table-block__table {
-  background-color: #fff;
-  overflow: auto;
-}
-.table-block__settings {
-  background-color: #fff;
-  overflow: auto;
-}
-
-@media (max-width: 1200px){
-  .app-main__inner {
-    height: auto;
-    min-height: 800px;
-  }
-  
-  .table-block {
-    grid-template-columns: 1fr;
-    grid-template-rows: 350px 550px;
-    gap: 15px;
-    box-shadow: 0px 0px 50px rgba(0, 0, 0, .85);
-  }
-  .table-block__column_table {
-    grid-row: 2 / 3;
-  }
-  .table-block__column_settings {
-    grid-row: 1 / 2;
-  }
-
-  .table-block__settings {
-    border-radius: 0 0 5px 5px;
-    overflow: hidden;
-  } 
-}
-/*----------------------------------------------------------------*/
 .info {
   width: 100%;
   height: 100%;
@@ -117,6 +120,42 @@ body {
   font-weight: 700;
   color: #b1b1b1;
 }
+
+.chart-title {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+}
+@media (max-width: 1500px){
+  .chart-title {
+    font-size: 42px;
+  }
+}
+@media (max-width: 1300px){
+  .chart-title {
+    font-size: 36px;
+  }
+}
+@media (max-width: 992px){
+  .chart-title {
+    font-size: 32px;
+  }
+}
+@media (max-width: 768px){
+  .chart-title {
+    font-size: 28px;
+  }
+}
+@media (max-width: 480px){
+  .chart-title {
+    font-size: 24px;
+  }
+}
+@media (max-width: 360px){
+  .chart-title {
+    font-size: 20px;
+  }
+}
 /*----------------------------------------------------------------*/
 
 .loading {
@@ -125,18 +164,22 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #fff;
 }
+
 /*----------------------------------------------------------------*/
-.open-budget {
+.footer {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
-.open-budget__text {
+.footer__text {
   font-size: 14px;
   color: #fff;
   text-align: center;
 }
+
+/*==================================================================*/

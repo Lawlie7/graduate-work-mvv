@@ -1,0 +1,70 @@
+.infographic__upload:not(:last-child) {
+  margin-bottom: 40px;
+}
+.infographic__body {
+  margin-bottom: 40px;
+}
+
+.infographic__menu {
+}
+.infographic-menu {
+  padding: 40px 10px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: none;
+}
+.infographic-menu__item {
+  text-align: center;
+}
+.infographic-menu__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.3;
+  transition: color .3s ease 0s;
+}
+.infographic-menu__link:hover {
+  color: rgb(241, 208, 137);
+}
+.infographic-menu__link._active {
+  color: rgb(244, 174, 25);
+}
+
+@media (max-width: 1200px){
+  .infographic-menu {
+    padding: 30px 10px;
+  }
+}
+@media (max-width: 992px){
+  .infographic-menu {
+    gap: 40px;
+  }
+}
+@media (max-width: 768px){
+  .infographic-menu {
+    padding: 20px 10px;
+    gap: 30px;
+    margin-bottom: 25px;
+  }
+  .infographic-menu__link {
+    font-size: 16px;
+  }
+}
+@media (max-width: 480px){
+  .infographic-menu {
+    gap: 20px;
+  }
+  .infographic-menu__link {
+    font-size: 14px;
+  }
+}
+@media (max-width: 360px){
+  .infographic-menu__link {
+    font-size: 12px;
+  }
+}

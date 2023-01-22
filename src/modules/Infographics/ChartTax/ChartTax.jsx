@@ -18,7 +18,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
 
     const { index } = element[0];
 
-    if(currentCodesTree['codes'][chartCodesSort[index]]['codes']) {
+    if(currentCodesTree['codes'][chartCodesSort[index]]['periodDone'] > 0 && currentCodesTree['codes'][chartCodesSort[index]]['codes']) {
       setCurrentСodesTree(currentCodesTree['codes'][chartCodesSort[index]]);
       setBreadcrumbs(prev => [...prev, {currentCodesTree: currentCodesTree, chartLabel: chartLabelSort[index]}])
     } 
@@ -85,7 +85,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
   // Контен (html-структура), що відображає даний компонент на сторінці
   return (
     <div className="chart-tax">
-      <h2 className="chart-tax__title">Структура бюджету</h2>
+      <h2 className="chart-tax__title chart-title">Структура бюджету</h2>
       <div className="chart-tax__header chart-tax-header ">
         {breadcrumbs.length > 0 &&
           <p className="chart-tax-header__title doughnut-codes-header__title">
@@ -178,7 +178,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
                           chartRef.current.toggleDataVisibility(indexSort);
                           event.target.closest(".chart-tax-legend__item").classList.toggle("_crossed-out");
                           chartRef.current.update(); 
-                        } else if(currentCodesTree['codes'][chartCodesSort[indexSort]]['codes']) {
+                        } else if(currentCodesTree['codes'][chartCodesSort[indexSort]]['periodDone'] > 0 && currentCodesTree['codes'][chartCodesSort[indexSort]]['codes']) {
                           document.querySelectorAll(".chart-tax-legend__item").forEach(li => li.classList.remove("_crossed-out"))
                           setCurrentСodesTree(currentCodesTree['codes'][chartCodesSort[indexSort]]);
                           setBreadcrumbs(prev => [...prev, {currentCodesTree: currentCodesTree, chartLabel: chartLabelSort[indexSort]}])

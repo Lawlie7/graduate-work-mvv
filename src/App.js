@@ -1,15 +1,17 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
 
 import loading from './images/loading.gif'
 
-import Table from './modules/Table/Table';
-import TableTypeSettings from './modules/Settings/TableTypeSettings';
-import Search from './modules/Search/Search';
-import TableSettings from './modules/Settings/TableSettings';
-import Infographics from './modules/Infographics/Infographics';
-import Upload from './modules/Upload/Upload';
-import Download from './modules/Download/Download';
+import {Chart as ChartJS} from 'chart.js/auto';
+import MainPage from './pages/MainPage/MainPage.jsx';
+import DataPage from './pages/DataPage/DataPage.jsx';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import InfographicPage from './pages/InfographicPage/InfographicPage';
+import PlanDone from './modules/Infographics/PlanDone/PlanDone';
+import PlanDoneByTypes from './modules/Infographics/PlanDoneByTypes/PlanDoneByTypes';
+import ChartTax from './modules/Infographics/ChartTax/ChartTax';
 
 // Найменування полів даних, що надходять у json форматі після відправки запиту, кирилицею
 const renamedColumnNames = {
@@ -28,17 +30,13 @@ const renamedColumnNames = {
 // App - основний компонент, у якому реалізовується весь додаток
 function App() {
   let [data, setData] = React.useState([]); //дані завантажені з файлу
-  let [searchedData, setSearchedData] = React.useState([]); //дані, що шукаються через поле пошуку
   let [checkedSettings, setCheckedSettings] = React.useState({columns: new Set([]), rows: new Set([])});  //Поля в settings, які потрібно показувати
   let [showFields, setShowFields] = React.useState({columns: new Set([]), rows: new Set([])}); 
   //checkedSettings та showFields зроблені окремо, щоб зміна в налаштуваннях відображуваних полів checkedSettings впливала на відображення саміх полів лише після натискання кнопки підтвердити
   let [columnNames, setColumnNames] = React.useState([]); //Перелік усіх полів, що можуть бути (у випадку якщо в якомусь об'єкті немає якогось поля, буде вставлено пробіл)
-
-  let [typeSettings, setTypeSettings] = React.useState({ columns: true, rows: false})
-
-  let [codes, setCodes] = React.useState({});
-
-  let [isLoading, setIsLoading] = React.useState(false);
+  let [codes, setCodes] = React.useState({}); // Перетворені дані з масиву до вигляду з рівнями
+  let [isLoading, setIsLoading] = React.useState(true); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
+  //let [isLoading, setIsLoading] = React.useState(false); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
   
   // Функція для перетворення даних, що надійшли у вигляді масиву до вигляду дерева з рівнями за кодами бюджетної класифікації
   function convertingDataToTree(data) {
@@ -124,8 +122,6 @@ function App() {
   // React.useEffect - хук, завдяки якому React запам'ятає передану у нього функцію і викличе її після того, як внесе всі зміни в DOM, тобто після рендеру сторінки.
   // React.useEffect виконає передану функцію та внесе зміни в DOM, коли будуть змінені дані у змінній data
   React.useEffect(() => {
-    setSearchedData(data);
-
     let fieldsList = new Set();
     data.forEach(obj => {
       Object.keys(obj).forEach(item => {
@@ -149,61 +145,98 @@ function App() {
     convertingDataToTree(data);
   }, [data])
 
+
+
+  const [tempStartDate, setTempStartDate] = React.useState({ year: null, fromMonth: null, toMonth: null })
+  const [startDate, setStartDate] = React.useState({})
+  const [selectedDate, setSelectedDate] = React.useState({});
+  const [allDates, setAllDates] = React.useState({years: [], fromMonth: [], toMonth: [],});
+  
+  React.useEffect(() => {
+      const today = new Date();
+      setTempStartDate({  
+          year: today.getFullYear(),
+          fromMonth: 1,
+          toMonth: today.getMonth() + 1,
+      })
+  }, [])
+  React.useEffect(() => {
+      axios.get(`https://openbudget.gov.ua/api/reports/income/details/JSON?budgetType=NATIONAL&fundType=TOTAL&year=${tempStartDate.year}&monthTo=${tempStartDate.toMonth}&monthFrom=${tempStartDate.fromMonth}`)
+      .then(request => {
+          if(request.data.length <= 1) {
+              setTempStartDate( prev => {
+                  return {
+                      year: prev.toMonth > 1 ? prev.year : prev.year - 1,
+                      fromMonth: 1,
+                      toMonth: prev.toMonth > 1 ? prev.toMonth - 1 : 12,
+                  }
+              })
+          } else {
+              setStartDate(tempStartDate);
+              setSelectedDate(tempStartDate);
+              setData(request.data);
+              setIsLoading(true);
+          }
+      })
+  }, [tempStartDate])
+    
+  React.useEffect(() => {
+      let tempAllDates = {years: [], fromMonth: [], toMonth: [],};
+      for (let i = 2018; i <= startDate.year; i++) {
+          tempAllDates.years.push(i);    
+      }
+
+      for (let i = 1; i <= selectedDate.toMonth; i++) {
+          tempAllDates.fromMonth.push(i); 
+      }
+      
+      let toMonth = selectedDate.year < startDate.year ? 12 : startDate.toMonth;
+      for (let i = selectedDate.fromMonth; i <= toMonth; i++) {
+          tempAllDates.toMonth.push(i); 
+      }
+
+      setAllDates(tempAllDates);
+  }, [selectedDate])
+
   // Контен (html-структура), що відображає даний компонент на сторінці
   return (
-    <div className="app">
-      {!isLoading &&
-        <div className='loading'>
-          <img className="loading__icon" src={loading} alt="Loading..." />
-        </div>
-      }
-      <div className="app__main app-main">
-        <div className="container">
-          <div className="app-main__inner">
-            <Upload setData={setData} setIsLoading={setIsLoading}/>
-
-            <div className="app-main__table-block table-block">
-              <div className="table-block__column table-block__column_table">
-                <Search data={data} setSearchedData={setSearchedData} showFields={showFields}/>
-                <div className="table-block__table">
-                  {searchedData.length > 0
-                    ? <Table codes={codes} columnNames={columnNames} showFields={showFields} renamedColumnNames={renamedColumnNames} searchedData={searchedData}/>
-                    : <div className="info">Немає даних</div>
-                  }
-                </div>
-              </div>
-              <div className="table-block__column table-block__column_settings">
-                <TableTypeSettings typeSettings={typeSettings} setTypeSettings={setTypeSettings}/>
-                <div className="table-block__settings">
-                  {data.length > 0
-                    ? <TableSettings codes={codes} typeSettings={typeSettings} data={data} setSearchedData={setSearchedData} columnNames={columnNames} setShowFields={setShowFields} setCheckedSettings={setCheckedSettings} checkedSettings={checkedSettings} renamedColumnNames={renamedColumnNames}/>
-                    : <div className="info">Немає даних</div>
-                  }
-                </div>
-              </div>
-            </div>
-
-            <Download data={data} columnNames={columnNames} showFields={showFields}/>
+    <> 
+      <div className="app">
+        {!isLoading &&
+          <div className='loading'>
+            <img className="loading__icon" src={loading} alt="Loading..." />
           </div>
-        </div>
-      </div>
-      {data.length > 1 && Object.keys(codes).length !== 0 &&
-        <div className="app__infographics app-infographics">
+        }
+        <header className="header">
           <div className="container">
-            <div className="app-infographics__inner">
-              <Infographics data={data} renamedColumnNames={renamedColumnNames} codes={codes}/>
+            <nav className="header__menu">
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="/">Головна</NavLink>
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="/data">Вибірка даних</NavLink>
+              <NavLink className={({ isActive }) => isActive ? "header__link _active" : "header__link"} to="/diagram">Діаграми</NavLink>
+            </nav>
+          </div>
+        </header>
+        
+        <main className="page">
+          <Routes> 
+            <Route path="/" element={<MainPage />}/>
+            <Route path="/data" element={<DataPage data={data} showFields={showFields} setShowFields={setShowFields} codes={codes} renamedColumnNames={renamedColumnNames} columnNames={columnNames} checkedSettings={checkedSettings} setCheckedSettings={setCheckedSettings} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
+            <Route path="/diagram/*" element={<InfographicPage data={data} renamedColumnNames={renamedColumnNames} codes={codes} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}>
+              <Route path="plan-done" element={<PlanDone data={data} />}/>
+              <Route path="plan-done-by-types" element={<PlanDoneByTypes data={data} renamedColumnNames={renamedColumnNames} codes={codes}/>}/>
+              <Route path="chart-tax" element={<ChartTax data={data} renamedColumnNames={renamedColumnNames} codes={codes} />}/>
+            </Route>
+          </Routes>
+        </main>
+        <footer className='footer'>
+          <div className="container">
+            <div className="footer__text">
+              Дані отримані з веб-порталу Open budget
             </div>
           </div>
-        </div>
-      }
-      <div className='open-budget'>
-        <div className="container">
-          <div className="open-budget__text">
-            Дані отримані з веб-порталу Open budget
-          </div>
-        </div>
+        </footer>
       </div>
-    </div>
+    </>
   );
 }
 

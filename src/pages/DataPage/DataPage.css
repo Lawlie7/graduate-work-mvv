@@ -1,0 +1,23 @@
+.data {
+}
+.data__body {
+  max-height: 100vh;
+  height: 100%;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px 0;
+}
+
+@media (max-width: 1200px){
+  .data__body {
+    min-height: 1100px;
+  }
+}
+@media (max-width: 768px){
+  .data__body {
+    min-height: 1200px;
+    padding-top: 25px;
+  }
+}

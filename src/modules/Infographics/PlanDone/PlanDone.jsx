@@ -20,7 +20,7 @@ function PlanDone({data}) {
     // Контен (html-структура), що відображає даний компонент на сторінці 
     return (
         <div className='plan-done'>
-            <h2 className="plan-done__title">Виконання бюджету</h2>
+            <h2 className="plan-done__title chart-title">Виконання бюджету</h2>
             <div className="plan-done__body">
                 <div className="plan-done__doughnut">
                     <div className='plan-done__done'>{data[0]['percentDoneToYearCorrectionPlan']} %</div>
