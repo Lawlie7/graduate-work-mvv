@@ -1,14 +1,22 @@
 .upload {
   font-size: 18px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: .5fr 2fr 1fr 1.5fr;
+  gap: 40px;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   color: #fff;
   font-weight: 700;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
 }
-.upload__item,
+.upload_big {
+  max-width: 100%;
+  grid-template-columns: .5fr 2fr 1fr 2fr 1.5fr;
+}
+.upload__item {
+}
 .upload__item-group {
   display: flex;
   align-items: center;
@@ -27,19 +35,19 @@
   font-size: 18px;
   outline: none;
   cursor: pointer;
+  max-width: 100%;
+  width: 100%;
 }
 
-.upload__select * {
+.upload__value{
   color: #000;
+  font-size: 16px;
 }
-
-.upload__value:hover{
-  background-color: #ffdcbe;
-}
+.upload__text {}
 
 .upload__button {
   display: block;
-  min-width: 250px;
+  width: 100%;
   font-size: 20px;
   font-weight: 600;
   color: #fff;
@@ -56,13 +64,16 @@
 @media (max-width: 1400px){
   .upload {
     font-size: 16px;
+    gap: 30px;
   }
   .upload__select {
     font-size: 16px;
-    padding: 13px 13px 13px 5px;
+    padding: 13px 8px 13px 5px;
+  }
+  .upload__value{
+    font-size: 14px;
   }
   .upload__button {
-    min-width: 230px;
     font-size: 18px;
     padding: 13px 25px;
   }
@@ -70,42 +81,57 @@
 @media (max-width: 1200px){
   .upload {
     font-size: 14px;
+    gap: 25px;
   }
   .upload__select {
     font-size: 14px;
-    padding: 10px 10px 10px 5px;
+    padding: 10px 5px 10px 5px;
+  }
+  .upload__value{
+    font-size: 12px;
   }
   .upload__button {
-    min-width: 200px;
     font-size: 16px;
-    padding: 10px 20px;
+    padding: 10px 15px;
+  }
+  .upload_big {
+    grid-template-columns: .5fr 2fr 1fr 2fr 1.35fr;
   }
 }
-@media (max-width: 768px){
+@media (max-width: 992px){
   .upload {
-    display: grid;
-    gap: 15px;
+    column-gap: 20px;
+    row-gap: 25px;
+    display: flex;
+    flex-wrap: wrap;
   }
   .upload__item {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+    flex: 1 1 auto;
   }
   .upload__item-group .upload__select {
     flex: 1 1 auto;
   }
   .upload__select {
-    font-size: 14px;
     padding-left: 3px;
   }
   .upload__button {
-    margin-top: 15px;
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 768px){
+  .upload {
+    column-gap: 15px;
+    row-gap: 25px;
+  }
+  .upload__item {
+    flex: 1 1 100%;
   }
 }
 @media (max-width: 480px){
   .upload {
-    gap: 10px;
+    row-gap: 18px;
   }
-  .upload__item,
   .upload__item-group {
     gap: 10px;
   }

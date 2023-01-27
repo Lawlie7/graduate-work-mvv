@@ -5,7 +5,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Upload from '../../modules/Upload/Upload';
 
 // Компонент, у якому відображаються всі діаграми
-function InfographicPage({data, codes, setData, setIsLoading, startDate, allDates, selectedDate, setSelectedDate}) {
+function InfographicPage({data, codes, setData, setIsLoading, startDate, allDataParams, selectedDataParam, setSelectedDataParam}) {
     const navigate = useNavigate();
     React.useEffect(() => {
       // redirect to default category when `App` mounts
@@ -28,7 +28,7 @@ function InfographicPage({data, codes, setData, setIsLoading, startDate, allDate
                     </li>
                 </ul>
                 <div className="infographic__upload">
-                    <Upload setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+                    <Upload setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDataParams={allDataParams} selectedDataParam={selectedDataParam} setSelectedDataParam={setSelectedDataParam}/>
                 </div>
                 {data.length > 1 && Object.keys(codes).length !== 0 &&
                     <div className="infographic__body">

@@ -24,7 +24,8 @@ const renamedColumnNames = {
   "periodDone": "Виконано за період",
   "deviationToPeriodCorrectionPlan": "Відхилення до уточненого плану за період",
   "percentDoneToPeriodCorrectionPlan": "Відсоток виконання до уточненого плану за період",
-  "percentDoneToYearCorrectionPlan": "Відсоток виконання до уточненого річного плану"
+  "percentDoneToYearCorrectionPlan": "Відсоток виконання до уточненого річного плану",
+  "yearBudgetEstimate": "Річна оцінка бюджету (Budget Estimate)"
 }
 
 // App - основний компонент, у якому реалізовується весь додаток
@@ -35,8 +36,8 @@ function App() {
   //checkedSettings та showFields зроблені окремо, щоб зміна в налаштуваннях відображуваних полів checkedSettings впливала на відображення саміх полів лише після натискання кнопки підтвердити
   let [columnNames, setColumnNames] = React.useState([]); //Перелік усіх полів, що можуть бути (у випадку якщо в якомусь об'єкті немає якогось поля, буде вставлено пробіл)
   let [codes, setCodes] = React.useState({}); // Перетворені дані з масиву до вигляду з рівнями
-  let [isLoading, setIsLoading] = React.useState(true); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
-  //let [isLoading, setIsLoading] = React.useState(false); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
+  //let [isLoading, setIsLoading] = React.useState(true); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
+  let [isLoading, setIsLoading] = React.useState(false); // Поки завантажуються дані через API відображається вікно Loading, після завантаження даних - зникає
   
   // Функція для перетворення даних, що надійшли у вигляді масиву до вигляду дерева з рівнями за кодами бюджетної класифікації
   function convertingDataToTree(data) {
@@ -149,8 +150,8 @@ function App() {
 
   const [tempStartDate, setTempStartDate] = React.useState({ year: null, fromMonth: null, toMonth: null })
   const [startDate, setStartDate] = React.useState({})
-  const [selectedDate, setSelectedDate] = React.useState({});
-  const [allDates, setAllDates] = React.useState({years: [], fromMonth: [], toMonth: [],});
+  const [selectedDataParam, setSelectedDataParam] = React.useState({});
+  const [allDataParams, setAllDataParams] = React.useState({years: [], fromMonth: [], toMonth: [],});
   
   React.useEffect(() => {
       const today = new Date();
@@ -163,40 +164,40 @@ function App() {
   React.useEffect(() => {
       axios.get(`https://openbudget.gov.ua/api/reports/income/details/JSON?budgetType=NATIONAL&fundType=TOTAL&year=${tempStartDate.year}&monthTo=${tempStartDate.toMonth}&monthFrom=${tempStartDate.fromMonth}`)
       .then(request => {
-          if(request.data.length <= 1) {
-              setTempStartDate( prev => {
-                  return {
-                      year: prev.toMonth > 1 ? prev.year : prev.year - 1,
-                      fromMonth: 1,
-                      toMonth: prev.toMonth > 1 ? prev.toMonth - 1 : 12,
-                  }
-              })
-          } else {
-              setStartDate(tempStartDate);
-              setSelectedDate(tempStartDate);
-              setData(request.data);
-              setIsLoading(true);
-          }
+        if(request.data.length <= 1) {
+          setTempStartDate( prev => {
+            return {
+              year: prev.toMonth > 1 ? prev.year : prev.year - 1,
+              fromMonth: 1,
+              toMonth: prev.toMonth > 1 ? prev.toMonth - 1 : 12,
+            }
+          })
+        } else {
+          setStartDate(tempStartDate);
+          setSelectedDataParam({...tempStartDate, budgetType: "NATIONAL", budgetCode: "0000000000"});
+          setData(request.data);
+          setIsLoading(true);
+        }
       })
   }, [tempStartDate])
     
   React.useEffect(() => {
-      let tempAllDates = {years: [], fromMonth: [], toMonth: [],};
+      let tempAllDataParams = {years: [], fromMonth: [], toMonth: []};
       for (let i = 2018; i <= startDate.year; i++) {
-          tempAllDates.years.push(i);    
+        tempAllDataParams.years.push(i);    
       }
 
-      for (let i = 1; i <= selectedDate.toMonth; i++) {
-          tempAllDates.fromMonth.push(i); 
+      for (let i = 1; i <= selectedDataParam.toMonth; i++) {
+        tempAllDataParams.fromMonth.push(i); 
       }
       
-      let toMonth = selectedDate.year < startDate.year ? 12 : startDate.toMonth;
-      for (let i = selectedDate.fromMonth; i <= toMonth; i++) {
-          tempAllDates.toMonth.push(i); 
+      let toMonth = selectedDataParam.year < startDate.year ? 12 : startDate.toMonth;
+      for (let i = selectedDataParam.fromMonth; i <= toMonth; i++) {
+        tempAllDataParams.toMonth.push(i); 
       }
 
-      setAllDates(tempAllDates);
-  }, [selectedDate])
+      setAllDataParams(tempAllDataParams);
+  }, [selectedDataParam])
 
   // Контен (html-структура), що відображає даний компонент на сторінці
   return (
@@ -221,8 +222,8 @@ function App() {
         <main className="page">
           <Routes> 
             <Route path="graduate-work-mvv/" element={<MainPage />}/>
-            <Route path="graduate-work-mvv/data" element={<DataPage data={data} showFields={showFields} setShowFields={setShowFields} codes={codes} renamedColumnNames={renamedColumnNames} columnNames={columnNames} checkedSettings={checkedSettings} setCheckedSettings={setCheckedSettings} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
-            <Route path="graduate-work-mvv/diagram/*" element={<InfographicPage data={data} renamedColumnNames={renamedColumnNames} codes={codes} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}>
+            <Route path="graduate-work-mvv/data" element={<DataPage data={data} showFields={showFields} setShowFields={setShowFields} codes={codes} renamedColumnNames={renamedColumnNames} columnNames={columnNames} checkedSettings={checkedSettings} setCheckedSettings={setCheckedSettings} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDataParams={allDataParams} selectedDataParam={selectedDataParam} setSelectedDataParam={setSelectedDataParam}/>}/>
+            <Route path="graduate-work-mvv/diagram/*" element={<InfographicPage data={data} renamedColumnNames={renamedColumnNames} codes={codes} setData={setData} setIsLoading={setIsLoading} startDate={startDate} allDataParams={allDataParams} selectedDataParam={selectedDataParam} setSelectedDataParam={setSelectedDataParam}/>}>
               <Route path="plan-done" element={<PlanDone data={data} />}/>
               <Route path="plan-done-by-types" element={<PlanDoneByTypes data={data} renamedColumnNames={renamedColumnNames} codes={codes}/>}/>
               <Route path="chart-tax" element={<ChartTax data={data} renamedColumnNames={renamedColumnNames} codes={codes} />}/>
@@ -232,7 +233,7 @@ function App() {
         <footer className='footer'>
           <div className="container">
             <div className="footer__text">
-              Дані отримані з веб-порталу Open budget
+              <p>Дані отримані з веб-порталу Open budget</p>
             </div>
           </div>
         </footer>
