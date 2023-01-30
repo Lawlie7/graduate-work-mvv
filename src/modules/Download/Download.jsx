@@ -8,13 +8,12 @@ const fileTypes = ['xlsx','xls', 'csv', 'json', 'html'];
 
 // Компонент для завантаження відфільтрованих у таблиці даних у вибраному форматі на ПК користувача
 function Download({data, columnNames, showFields}) {
-    let [activeFileType, setActiveFileType] = React.useState(fileTypes[0]);
+    let [activeFileType, setActiveFileType] = React.useState(fileTypes[0]); // У змінній зберігається вибраний тип файлу для завантаження. За замовчуванням .xlsx
 
-    // Зберігається у змінну вибраний тип файлу, у якому будуть завантажені відфільтровані дані із таблиці (xlsx, csv, json тощо)
+    // Виконується після вибору користувачем типу файлу (xlsx, csv, json тощо) і зберігає його у змінну activeFileType
     function onFileSelectValue(e) {
         setActiveFileType(e.target.value);
     }
-
     // Функція для завантаження відфільтрованих у таблиці даних у вибраному форматі на ПК користувача
     function download() {
         let wb = XLSX.utils.book_new();
@@ -56,8 +55,7 @@ function Download({data, columnNames, showFields}) {
             saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }),  `Data.${activeFileType}`);
         }
     }
-
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <div className="download-file">
             <select className="download-file__type" onChange={onFileSelectValue} disabled={data.length === 0} value={activeFileType} >

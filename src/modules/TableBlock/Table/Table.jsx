@@ -1,9 +1,9 @@
 import React from 'react'
 import './Table.css';
 
-// Компонент, що відображає таблицю
+// Компонент, що відображає саму таблицю (рядки та стовпці)
 function Table({codes, columnNames, showFields, renamedColumnNames, searchedData}) {
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <table className="table">
             <tr className="table__row table__row_header">

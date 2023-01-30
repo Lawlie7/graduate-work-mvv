@@ -3,7 +3,7 @@ import './TableSettings.css'
 
 // Компонент з налаштуваннями для рядків
 function TableRowsSettings({data, codes, setSearchedData, setCheckedSettings, checkedSettings}) {
-    // Функція, що робить натиснуте поле (або і всі поля, що є його підрівнями) в налаштуваннях активним / неактивним
+    // Функція, що робить натиснуте поле (або натиснуте поле і всі поля, що є його підрівнями) в налаштуваннях активним / неактивним
     function onCategory(e) {
         let rows = [];
         if (e.ctrlKey) {
@@ -32,7 +32,7 @@ function TableRowsSettings({data, codes, setSearchedData, setCheckedSettings, ch
             setCheckedSettings(previousState => ({...previousState, rows: new Set([...previousState.rows, ...rows])}));
         }
     }
-
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <ul className="settings-rows__list">
             <CreateCodesTree data={data} codes={codes} setSearchedData={setSearchedData} onCategory={onCategory} checkedSettings={checkedSettings}/>
@@ -42,8 +42,9 @@ function TableRowsSettings({data, codes, setSearchedData, setCheckedSettings, ch
 
 export default TableRowsSettings
 
-// Компонент з рекурсією, що відображає поля з кодами по рівнях
+// Допоміжний компонент, що викликається у вигляді рекурсії, який відображає поля з кодами по рівнях
 const CreateCodesTree = ({ data, codes, onCategory, checkedSettings, nextCode = null }) => {
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <>
             {Object.keys(codes).map((code, index) => {

@@ -13,7 +13,7 @@ function TableTypeSettings({typeSettings, setTypeSettings}) {
     function onCellRow() {
         setTypeSettings({...typeSettings, columns: false, rows: true})
     }
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <div className="settings-table__types">
             <button className={`settings-table__type ${typeSettings.columns ? '_active' : ""}`} onClick={onCellColumn}>

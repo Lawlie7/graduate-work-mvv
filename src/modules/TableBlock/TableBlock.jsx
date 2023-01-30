@@ -6,14 +6,18 @@ import TableSettings from '../Settings/TableSettings.jsx';
 
 import './TableBlock.css';
 
+
+// Компонент, що відображає блок з таблицею: поле пошуку, саму таблицю та налаштування таблицы
 function TableBlock({data, showFields, setShowFields, codes, renamedColumnNames, columnNames, checkedSettings, setCheckedSettings}) {
-    let [typeSettings, setTypeSettings] = React.useState({ columns: true, rows: false}); // Встановлення типу редагування таблиці (рядки чи стовпці)
-    let [searchedData, setSearchedData] = React.useState([]); //дані, що шукаються через поле пошуку
-    
+    let [typeSettings, setTypeSettings] = React.useState({ columns: true, rows: false}); // Встановлення типу редагування таблиці (редагевання рядків чи стовпців)
+    let [searchedData, setSearchedData] = React.useState([]); // Шукані дані за допомогою поля пошуку
+
+    // У змінну searchedData у вигляді шуканих даних за замовчуванням встановлюються і відображаються всі дані, що надійшли із сервера
     React.useEffect(() => {
         setSearchedData(data);
-    }, [0, data])
-
+    }, [data])
+    
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <div className="table-block">
             <div className="table-block__column table-block__column_table">

@@ -4,15 +4,14 @@ import './InfographicPage.css'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Upload from '../../modules/Upload/Upload';
 
-// Компонент, у якому відображаються всі діаграми
+// Компонент, що відображає сторінку "Діаграми", у якому відображаються всі діаграми
 function InfographicPage({data, codes, setData, setIsLoading, startDate, allDataParams, selectedDataParam, setSelectedDataParam}) {
+    // При переході на сторінку "Діаграми" відображається діаграма "Виконання бюджету"
     const navigate = useNavigate();
     React.useEffect(() => {
-      // redirect to default category when `App` mounts
       navigate("plan-done", { replace: true });
     }, []);
-
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <div className="infographic">
             <div className="container">

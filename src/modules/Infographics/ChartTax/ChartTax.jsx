@@ -1,17 +1,18 @@
 import React from "react";
-import "./ChartTax.css";
-
 import {Doughnut, getElementAtEvent} from 'react-chartjs-2';
+
+import "./ChartTax.css";
 
 // Компонент, що створює блок діаграми «Структура бюджету»
 function ChartTax({data, renamedColumnNames, codes}) {
-  const chartRef = React.useRef();
-  let [breadcrumbs, setBreadcrumbs] = React.useState([]);
-  let [currentCodesTree, setCurrentСodesTree] = React.useState({});
-  let [chartLabel, setChartLabel] = React.useState([]);
-  let [chartLabelSort, setChartLabelSort] = React.useState([]);
-  let [chartDataSort, setChartDataSort] = React.useState([]);
-  let [chartCodesSort, setChartCodesSort] = React.useState([]);
+  const chartRef = React.useRef(); // Збеігає посилання на діаграму
+  let [breadcrumbs, setBreadcrumbs] = React.useState([]); // Містити у собі послідовну інформацію про рівні, по яких відбувався перехід взаємодіючи із діаграмою
+  let [currentCodesTree, setCurrentСodesTree] = React.useState({}); // Містить дані про поточну гілку (рівень) «дерева» податкових надходжень
+  let [chartLabel, setChartLabel] = React.useState([]); // Містить опис (найменування) секцій діаграми
+  let [chartLabelSort, setChartLabelSort] = React.useState([]); // Має ті ж дані, що у chartLabel, але у відсортованому вигляді за сумою надходжень у порядку спадання
+  let [chartDataSort, setChartDataSort] = React.useState([]); // Відсортований масив числових даних (сума податкових надходжень за кожен вид надходжень на поточному рівні) на основі якого буде побудована діаграма
+  let [chartCodesSort, setChartCodesSort] = React.useState([]); // Містить відсортовані коди за сумою надходжень по ним у порядку спадання
+  let [chartLegend, setChartLegend] = React.useState([]); // Дані для побудови власної легенди діаграми. Легенда розшифровує назви рядків даних за якими було побудовано діаграму (розшифровує назви секторів)
 
   const printElementAtEvent = (element) => {
     if (!element.length) return;
@@ -25,7 +26,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
   };
 
   // React.useEffect виконає передану функцію і встановить необхідні для роботи діаграми дані у необхідні змінні та внесе зміни в DOM, 
-  // після того як будуть внесені зміни до даних у змінній codes
+  // після того як будуть змінені дані у змінній codes
   React.useEffect(() => { 
     setCurrentСodesTree(codes["0000000"]);
     setBreadcrumbs([{currentCodesTree: codes["0000000"], chartLabel: 'Доходи'}])
@@ -42,7 +43,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
   }, [codes])
  
   // React.useEffect виконає передану функцію і встановить необхідні для роботи діаграми дані у необхідні змінні та внесе зміни в DOM, 
-  // після того як будуть внесені зміни до даних у змінній currentCodesTree
+  // після того як будуть змінені дані у змінній currentCodesTree
   React.useEffect(() => {
     if(currentCodesTree['codes']) {
       setChartLabel(data.filter(obj => Object.keys(currentCodesTree['codes']).includes(obj['incomeCode'])).map(obj => obj['incomeCodeName']))
@@ -58,9 +59,8 @@ function ChartTax({data, renamedColumnNames, codes}) {
     }
   }, [currentCodesTree])
 
-  const [chartLegend, setChartLegend] = React.useState([]);
   // React.useEffect виконає передану функцію і встановить необхідні для роботи діаграми дані у необхідні змінні та внесе зміни в DOM, 
-  // після того як будуть внесені зміни до даних у змінній chartLabel
+  // після того як будуть змінені дані у змінній chartLabel
   React.useEffect(() => {
     let chart = chartRef.current;
     if (chart) {
@@ -76,13 +76,14 @@ function ChartTax({data, renamedColumnNames, codes}) {
     } 
   }, [chartLabel]);
   
+  // Отримати індекс сектора, якому відповідає натиснутий елемент списку в "легенді діаграми"
   function getIndex (label) {
     return chartLabelSort.indexOf(label)
   }
 
-  let hoverChartItenIndex;
+  let hoverChartItenIndex; // Зберігає індекс сектора діаграми, на який наведено курсор миші
 
-  // Контен (html-структура), що відображає даний компонент на сторінці
+  // Контен (html-структура), який відображається даним компонентом на сторінці
   return (
     <div className="chart-tax">
       <h2 className="chart-tax__title chart-title">Структура бюджету</h2>
@@ -116,7 +117,8 @@ function ChartTax({data, renamedColumnNames, codes}) {
               chartCodes: chartCodesSort,
             }}
             options={{
-              onHover: function (evt, item, chart) {    
+              onHover: function (evt, item, chart) {
+                // Зміна кольору сектору діаграми на який наведено курсор миші
                 if (item && item.length) {
                   if(hoverChartItenIndex !== item[0].index) {
                     hoverChartItenIndex = item[0].index;
@@ -166,7 +168,7 @@ function ChartTax({data, renamedColumnNames, codes}) {
                     let indexSort = getIndex(label)
                     let sum = 0;
                     let dataArr = chartRef.current.data.datasets[0].data;
-                    dataArr.map(data => {
+                    dataArr.forEach(data => {
                       sum += data;
                     });
 

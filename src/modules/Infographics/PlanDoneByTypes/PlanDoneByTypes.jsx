@@ -3,27 +3,30 @@ import { Bar } from 'react-chartjs-2';
 
 import "./PlanDoneByTypes.css"
 
+// Компонент, який відображає діаграму "Виконання бюджету за видами надходжень"
 function PlanDoneByTypes({data, renamedColumnNames, codes}) {
-    const chartRef = React.useRef();
+    const chartRef = React.useRef(); // Збеігає посилання на діаграму
+    
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <div className='plan-done-by-type'>
-            <h2 className="plan-done-by-type__title chart-title">Виконання плану по видах надходжень</h2>
+            <h2 className="plan-done-by-type__title chart-title">Виконання бюджету за видами надходжень</h2>
             <div className="plan-done-by-type__chart">
-                {/* Компонент із бібліотеки ChartJS, у який передаються дані та налаштування необхідні для побудови діаграми «Виконання плану по видах надходжень» */}
+                {/* Компонент із бібліотеки ChartJS, у який передаються дані та налаштування необхідні для побудови діаграми «Виконання бюджету за видами надходжень» */}
                 <Bar id='plan-done-by-type-id' data={{
                     labels: data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map(obj => obj['incomeCodeName']),
                     datasets: [
-                            {
-                                label: "Річний план",
-                                data: data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map( obj => obj['yearCorrectionPlan']),
-                                backgroundColor: 'rgba(2, 71, 254, 0.7)',
-                            },
-                            {
-                                label: renamedColumnNames['periodDone'],
-                                data: data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map( obj => obj['periodDone']),
-                                backgroundColor: 'rgba(250, 212, 0, 0.7)',
-                            },
-                        ],
+                        {
+                            label: "Річний план",
+                            data: data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map( obj => obj['yearCorrectionPlan']),
+                            backgroundColor: 'rgba(2, 71, 254, 0.7)',
+                        },
+                        {
+                            label: renamedColumnNames['periodDone'],
+                            data: data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map( obj => obj['periodDone']),
+                            backgroundColor: 'rgba(250, 212, 0, 0.7)',
+                        },
+                    ],
                 }} 
                 options = {
                     {
@@ -36,19 +39,20 @@ function PlanDoneByTypes({data, renamedColumnNames, codes}) {
                                     autoSkip: true,
                                     min: 0,
                                     callback: function (value, index, values) {
+                                        // Відображення по шкалі значень надходжень у скорочиному вигляді ( наприклад, 1000000000000 -> 1 млрд )
                                         if(values[index].major) {
-                                        switch (true) {
-                                            case value < 1000000:
-                                                return value / 1000 + ' тис'
-                                            case value < 1000000000:
-                                                return value / 1000000 + ' млн'
-                                            case value < 1000000000000:
-                                                return value / 1000000000 + ' млрд'
-                                            case value < 1000000000000000:
-                                                return value / 1000000000000 + ' трлн'
-                                            default:
-                                                return value;
-                                        }
+                                            switch (true) {
+                                                case value < 1000000:
+                                                    return value / 1000 + ' тис'
+                                                case value < 1000000000:
+                                                    return value / 1000000 + ' млн'
+                                                case value < 1000000000000:
+                                                    return value / 1000000000 + ' млрд'
+                                                case value < 1000000000000000:
+                                                    return value / 1000000000000 + ' трлн'
+                                                default:
+                                                    return value;
+                                            }
                                         } else {
                                             return '';
                                         }
@@ -67,6 +71,7 @@ function PlanDoneByTypes({data, renamedColumnNames, codes}) {
                                 ticks: {
                                     autoSkip: false,
                                     callback: (value, index, values) => {
+                                        // Підпис по горизонталі під кожним секотором діаграми відображається у вигляді 1 рядка, оскільки рядок може бути довгим, то здійснюється розбиття одного рядка на декілька
                                         let sections = [];
                                         let words = data.filter(obj => codes["0000000"]['codes'][obj['incomeCode']]).map(obj => obj['incomeCodeName'])[value].split(" ");
                                         let temp = "";

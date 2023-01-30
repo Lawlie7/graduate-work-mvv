@@ -12,8 +12,7 @@ function TableColumnsSettings({ columnNames, checkedSettings, setCheckedSettings
             setCheckedSettings(previousState => ({...previousState, columns: new Set([...previousState.columns, index])}));
         }
     };
-    
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <ul className="settings-columns__list">
             {columnNames.map((item, index) => 

@@ -5,7 +5,9 @@ import './Upload.css';
 
 // Масив із назвами місяців року
 const monthNames = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень',  'Червень',  'Липень',  'Серпень',  'Вересень',  'Жовтень',  'Листопад',  'Грудень',];
+// Види бюджету для отримання даних: державний та місцевий
 const budgetTypes = [{id: "NATIONAL", name: "Державний"}, {id: "LOCAL", name: "Місцевий"}]
+// Масив об'єктів, які містять код та назву області за цим кодом. Необхідний для отримання даних про місцевий бюджет конкретної області
 const regions = [
     {
         "budgetCode": "0000000000",
@@ -117,8 +119,9 @@ const regions = [
     },
 ]
 
-// Компонент, для вибору періоду та отримання за цей період даних
+// Компонент, для вибору року, періоду, виду бюджету та отримання за цими параметрами даних
 function Upload({setData, setIsLoading, startDate, allDataParams, selectedDataParam, setSelectedDataParam}) {
+    // Зберігає вибране користувачем значення у кожному із полів select, за якими буде здійснюватися запит
     function onSelectDate(e) {
         switch (e.target.name) {
             case 'year':
@@ -140,8 +143,11 @@ function Upload({setData, setIsLoading, startDate, allDataParams, selectedDataPa
             case 'region':
                 setSelectedDataParam(prev => ({...prev, budgetCode: e.target.value}))
                 break;
+            default: 
+                break;
         }
     }
+    // Відправка GET-запиту відповідно до заданих користувачем параметрів
     function getData(e) {
         setIsLoading(false);
         if(e) e.preventDefault();
@@ -180,7 +186,7 @@ function Upload({setData, setIsLoading, startDate, allDataParams, selectedDataPa
             .catch(error => console.log(error));
         }
     }
-
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <form className={`upload ${selectedDataParam.budgetType === "LOCAL" ? "upload_big" : ""}`} onSubmit={getData}>
             <div className="upload__item">
@@ -220,12 +226,11 @@ function Upload({setData, setIsLoading, startDate, allDataParams, selectedDataPa
                     <p className="upload__text">Область:</p>
                     <select className="upload__select" name="region" onChange={onSelectDate} value={selectedDataParam.budgetCode}>
                         { regions.length > 0 &&
-                            regions.map(region => <option className="upload__value" value={region.budgetCode}>{region.budgetName}</option>)
+                            regions.map(region => <option className="upload__value" value={region.budgetCode} key={region.budgetCode}>{region.budgetName}</option>)
                         }
                     </select>
                 </div> 
-            }      
-                      
+            }          
             <button className="upload__button">Отримати дані</button>
         </form>
     )

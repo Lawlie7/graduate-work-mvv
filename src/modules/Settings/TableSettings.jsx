@@ -3,7 +3,7 @@ import React from 'react'
 import TableColumnsSettings from './TableColumnsSettings'
 import TableRowsSettings from './TableRowsSettings'
 
-// Компонент, що відображає блок налаштувань
+// Компонент, який відображає блок налаштувань
 function TableSettings({ data, codes, setSearchedData, columnNames, setShowFields, checkedSettings, setCheckedSettings, renamedColumnNames, typeSettings }) {
     // Функція, що викликається при натисканні на кнопку "Підтвердити" та зберігає поля, що мають бути відображенні
     const handleSubmitForm = (e) => {
@@ -28,14 +28,13 @@ function TableSettings({ data, codes, setSearchedData, columnNames, setShowField
             setCheckedSettings(previousState => ({...previousState, columns: new Set([...columns])}));
         } else {
             let rows = [];
-            data.forEach((obj, index) => {
+            data.forEach(obj => {
                 rows.push(obj['incomeCode']);
             })
             setCheckedSettings(previousState => ({...previousState, rows: new Set([...rows])}));
         }
     };
-    
-    // Контен (html-структура), що відображає даний компонент на сторінці
+    // Контен (html-структура), який відображається даним компонентом на сторінці
     return (
         <form onSubmit={handleSubmitForm} className="table__settings settings-table">
             <div className="settings-table__filters">
